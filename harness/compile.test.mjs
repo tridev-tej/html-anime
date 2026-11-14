@@ -112,6 +112,9 @@ assert.equal(
   compileBrief({ logline: "A bell.", seconds: 8, aspect: "1:1", script: "indigo" }).ok,
   false,
 );
+for (const input of [undefined, null, "text"]) {
+  assert.deepEqual(compileBrief(input), { ok: false, error: "Write the scene first." });
+}
 
 for (const script of Object.values(SCRIPTS)) {
   for (const hex of Object.values(script.colors)) {

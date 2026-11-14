@@ -159,7 +159,8 @@ function clock(seconds) {
  *   `ok: false` with a readable `error` when the input breaks a sheet rule; nothing throws.
  */
 export function compileBrief(input) {
-  const logline = String(input.logline ?? "").trim().replace(/\s+/g, " ");
+  const source = input && typeof input === "object" ? input : {};
+  const logline = String(source.logline ?? "").trim().replace(/\s+/g, " ");
   if (!logline) {
     return { ok: false, error: "Write the scene first." };
   }
@@ -167,22 +168,22 @@ export function compileBrief(input) {
     return { ok: false, error: "Keep the scene under 400 characters." };
   }
 
-  const seconds = Number(input.seconds);
+  const seconds = Number(source.seconds);
   if (!PLANS[seconds]) {
     return { ok: false, error: "Length has to be 8, 12, or 20 seconds." };
   }
 
-  const aspect = ASPECTS[input.aspect];
+  const aspect = ASPECTS[source.aspect];
   if (!aspect) {
     return { ok: false, error: "Frame has to be 16:9 or 9:16." };
   }
 
-  const script = SCRIPTS[input.script];
+  const script = SCRIPTS[source.script];
   if (!script) {
     return { ok: false, error: "Pick a color script." };
   }
 
-  const dialogue = String(input.dialogue ?? "").trim();
+  const dialogue = String(source.dialogue ?? "").trim();
   if (dialogue.length > 180) {
     return { ok: false, error: "Keep the line under 180 characters." };
   }
@@ -190,7 +191,7 @@ export function compileBrief(input) {
   const shots = shotPlan(seconds);
   const slug = slugFrom(logline);
   const frameLine =
-    input.aspect === "9:16"
+    source.aspect === "9:16"
       ? "Compose the tall frame. The head sits in the upper half. Type sits in the lower fifth."
       : "Compose the wide frame. Put the eyes on a third, with room in front of the gaze.";
 
