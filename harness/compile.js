@@ -173,12 +173,12 @@ export function compileBrief(input) {
     return { ok: false, error: "Length has to be 8, 12, or 20 seconds." };
   }
 
-  const aspect = ASPECTS[source.aspect];
+  const aspect = Object.hasOwn(ASPECTS, source.aspect) ? ASPECTS[source.aspect] : null;
   if (!aspect) {
     return { ok: false, error: "Frame has to be 16:9 or 9:16." };
   }
 
-  const script = SCRIPTS[source.script];
+  const script = Object.hasOwn(SCRIPTS, source.script) ? SCRIPTS[source.script] : null;
   if (!script) {
     return { ok: false, error: "Pick a color script." };
   }

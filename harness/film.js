@@ -8,8 +8,8 @@ export function compileFilm(manifest) {
   if (!manifest || typeof manifest !== "object") throw new Error("Film manifest required");
   const { title, aspect = "16:9", script = "indigo", scenes, characters = [] } = manifest;
   if (typeof title !== "string" || !title.trim()) throw new Error("Film title required");
-  if (!ASPECTS[aspect]) throw new Error("Unsupported aspect ratio");
-  if (!SCRIPTS[script]) throw new Error("Unsupported color script");
+  if (!Object.hasOwn(ASPECTS, aspect)) throw new Error("Unsupported aspect ratio");
+  if (!Object.hasOwn(SCRIPTS, script)) throw new Error("Unsupported color script");
   if (!Array.isArray(scenes) || scenes.length === 0) throw new Error("At least one scene required");
   if (!Array.isArray(characters)) throw new Error("Characters must be an array");
   const ids = new Set();

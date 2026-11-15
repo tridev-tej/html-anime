@@ -21,4 +21,8 @@ assert.ok(film.shots.every(s => s.sheet.includes("# html-anime")));
 assert.throws(() => compileFilm({ ...base, scenes: [{ seconds: 15, logline: "No" }] }), /duration/);
 assert.throws(() => compileFilm({ ...base, scenes: [{ seconds: 20, logline: "Hello", characters: ["missing"] }] }), /unknown character/);
 assert.throws(() => compileFilm({ ...base, characters: [{ id: "ren" }, { id: "ren" }] }), /unique/);
+for (const bad of ["toString", "constructor", "__proto__"]) {
+  assert.throws(() => compileFilm({ ...base, aspect: bad }), /Unsupported aspect ratio/);
+  assert.throws(() => compileFilm({ ...base, script: bad }), /Unsupported color script/);
+}
 console.log("Film compiler tests passed");
